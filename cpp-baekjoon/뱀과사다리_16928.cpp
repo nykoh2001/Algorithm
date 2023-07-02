@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// bfs
+
 // node 당 간선이 최대 7개인 bfs
 int main()
 {

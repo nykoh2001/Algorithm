@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// bfs
 // 덩어리 개수 구하는건 분할 정복이 더 간편하지 않나
 
 int main()

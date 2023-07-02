@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// bfs
+
 // 1. 전역 변수 설정
 int *visited;
 vector<int> *graph;

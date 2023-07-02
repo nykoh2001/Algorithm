@@ -3,19 +3,21 @@
 #include <algorithm>
 using namespace std;
 
+// dfs
+
 int level = 1;
 vector<int> *graph;
 int *visited;
 
 void dfs(
-  int node
-  // , vector<int> *graph, int *visited
-  )
+    int node
+    // , vector<int> *graph, int *visited
+)
 {
   visited[node] = level++;
 
   // for (int i = 0; i < (int)graph[node].size(); i++)
-  for (vector<int>::iterator iter = graph[node].begin(); iter != graph[node].end(); iter ++)
+  for (vector<int>::iterator iter = graph[node].begin(); iter != graph[node].end(); iter++)
   {
     if (visited[*iter] == 0)
     {
@@ -24,9 +26,10 @@ void dfs(
   }
 }
 
-int main() {
+int main()
+{
   ios::sync_with_stdio(false);
-	cin.tie(NULL);
+  cin.tie(NULL);
 
   int N, M, R;
   cin >> N >> M >> R;
@@ -52,7 +55,8 @@ int main() {
     graph[n2].push_back(n1);
   }
 
-  for (int i = 0; i < N+1; i++) {
+  for (int i = 0; i < N + 1; i++)
+  {
     sort(graph[i].begin(), graph[i].end());
   }
 
@@ -65,10 +69,11 @@ int main() {
 
   dfs(R);
 
-  for (int i = 1; i < N+1; i++) {
-  cout << visited[i] << '\n';
-  // endl은 다음 줄로 이동함과 동시에 버퍼 클리어
-  // 많은 양을 출력할 때는 매우 오뢔 걸림 
-  // ,,,
+  for (int i = 1; i < N + 1; i++)
+  {
+    cout << visited[i] << '\n';
+    // endl은 다음 줄로 이동함과 동시에 버퍼 클리어
+    // 많은 양을 출력할 때는 매우 오뢔 걸림
+    // ,,,
   }
 }
