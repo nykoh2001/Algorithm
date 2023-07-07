@@ -13,5 +13,7 @@ auto build_array(Args &&...args) -> array<typename common_type<Args...>::type, s
   // common Type 계산
   using commonType = typename common_type<Args...>::type;
   // 배열 생성
+  // &&: 보편적 참조 연산자 -> lvalue, rvalue 여부에 관계 없이 참조
+  // forward: template function, 객체의 카테고리(lvalue, rvalue)와 가변성을 유지한채 전송
   return {forward<commonType>((Args &&)args)...};
 }
