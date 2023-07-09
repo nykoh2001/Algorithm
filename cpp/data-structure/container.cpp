@@ -132,7 +132,7 @@ public:
   // data list 생성자
   singly_ll(const initializer_list<int> &list) : head(NULL)
   {
-    for (reverse_iterator iter = rbegin(list); iter != rend(list); iter++)
+    for (auto iter = rbegin(list); iter != rend(list); iter++)
     // std::reverse_iterator
     // push_front로 추가: 뒤에 요소부터 넣어야 함
     {
@@ -140,3 +140,9 @@ public:
     }
   }
 };
+
+int main()
+{
+  singly_ll sll = {1, 2, 3};
+  sll.push_front(0);
+}
