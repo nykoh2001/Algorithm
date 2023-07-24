@@ -67,6 +67,72 @@ struct org_tree
     cout << manager << " 아래에 " << subordinate << "를 추가했습니다." << endl;
     return true;
   }
+
+  static void pre_order(node *start)
+  {
+    if (!start)
+    {
+      return;
+    }
+    cout << start->position << endl;
+    pre_order(start->first);
+    pre_order(start->second);
+  }
+
+  static void in_order(node *start)
+  {
+    if (!start)
+    {
+      return;
+    }
+    in_order(start->first);
+    cout << start->position << endl;
+    in_order(start->second);
+  }
+
+  static void post_order(node *start)
+  {
+    if (!start)
+    {
+      return;
+    }
+    pre_order(start->first);
+    pre_order(start->second);
+    cout << start->position << endl;
+  }
+
+  // BFS
+  static void level_order(node *start)
+  {
+    if (!start)
+    {
+      return;
+    }
+
+    queue<node *> q;
+    q.push(start);
+
+    while (!q.empty())
+    {
+      int size = q.size();
+      for (int i = 0; i < size; i++)
+      {
+        node *current = q.front();
+        q.pop();
+
+        cout << current->position << ", ";
+        if (current->first)
+        {
+          q.push(current->first);
+        }
+        if (current->second)
+        {
+          q.push(current->second);
+        }
+      }
+      cout << endl;
+    }
+  }
 };
 
 int main()
@@ -80,4 +146,6 @@ int main()
   organization_tree.add_subordinate("마케팅부장", "물류팀장");
   organization_tree.add_subordinate("마케팅부장", "홍보팀장");
   organization_tree.add_subordinate("부사장", "재무부장");
+
+  org_tree::level_order(organization_tree.root);
 }
