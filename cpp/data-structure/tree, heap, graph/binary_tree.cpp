@@ -126,20 +126,27 @@ private:
     {
       if (!current->left)
       {
+        // 자식이 아예 없는 경우: current를 지우는 동작과 동일
+        // 왼쪽 자식만 없는 경우: 바로 오른쪽 자식이 후속
         node *tmp = current->right;
         delete current;
         return tmp;
       }
       if (!current->right)
       {
+        // 오른쪽 자식만 없는 경우: 바로 왼쪽 자식이 후속
         node *tmp = current->left;
         delete current;
         return tmp;
       }
 
+      // 현재 값보다 큰 값 중에서 가장 작은 값을 갖는 자식을 후속으로 정의
       node *successNode = successor(current);
+
+      // 후속 노드 값으로 교체
       current->data = successNode->data;
 
+      // 남아있는 나머지 후속 노드 제거
       current->right = delete_impl(current->right, successNode->data);
     }
   }
