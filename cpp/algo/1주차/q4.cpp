@@ -78,7 +78,6 @@ int main()
   cout << endl
        << endl;
 
-  // 합집합 만들기
   for (int set_one : SET1)
   {
 
@@ -86,14 +85,15 @@ int main()
     {
       if (SET2[i] == set_one)
       {
-        // 겹치는 원소 SET_INTER에 추가
+        // 겹치는 원소 SET_INTER에 추가: 교집합 만들기
         SET_INTER[inter_index++] = SET2[i];
-        // SET2에서 SET1과 겹치는 원소 제거
+        // SET2에서 SET1과 겹치는 원소 제거: 합집합 계산
         SET2[i] = -9999;
       }
     }
   }
 
+  // 합집합 따로 저장
   for (int set_one : SET1)
   {
     SET_UNION[union_index++] = set_one;
@@ -108,20 +108,6 @@ int main()
 
   cout << "합집합" << endl;
   print_sorted(SET_UNION, union_index);
-
-  // 교집합 만들기
-  for (int set_two : SET2)
-  {
-    for (int i = 0; i < N; i++)
-    {
-      if (SET1[i] == set_two)
-      {
-        // 겹치는 원소 한번 더 추가
-        SET_INTER[inter_index++] = SET1[i];
-        SET1[i] = -9999;
-      }
-    }
-  }
 
   cout << endl
        << endl;
