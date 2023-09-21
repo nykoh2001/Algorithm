@@ -10,9 +10,9 @@ int _move = 0;
 int Bubble(int sorted, itemType *a, int n)
 {
   int temp;
-  _compare++;
   if (*(a - 1) > *a)
   {
+    _compare++;
     _move += 3;
     temp = *(a - 1);
     *(a - 1) = *a;
@@ -63,10 +63,8 @@ int main()
 {
   int N;
   cin >> N;
-  itemType *A = new itemType[N + 1];
-  itemType *B = new itemType[N + 1];
-  A[0] = -999999;
-  B[0] = -999999;
+  itemType *A = new itemType[N];
+  itemType *B = new itemType[N];
 
   itemType **a = new itemType *[N];
   srand((unsigned)time(NULL)); // 현재시간을 이용해 난수발생기 rand()의 초기값을 재설정
@@ -82,15 +80,15 @@ int main()
     delete[] a[i]; // a관련 메모리의 활용이 끝난 경우 이중 구조 메모리 해제
   delete[] a;
 
-  for (int i = 1; i <= N; i++)
+  for (int i = 0; i < N; i++)
   {
-    A[i] = N - i + 1;
+    A[i] = N - i;
   }
 
   bubbleSort(A, N);
 
   cout << "sorted data A: (20개까지 출력)";
-  for (int i = 1; i <= 20; i++)
+  for (int i = 0; i < 20; i++)
   {
     cout << A[i] << " ";
   }
@@ -104,7 +102,7 @@ int main()
 
   cout << endl
        << "sorted data B: (20개까지 출력)";
-  for (int i = 1; i <= 20; i++)
+  for (int i = 0; i < 20; i++)
   {
     cout << B[i] << " ";
   }

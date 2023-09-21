@@ -15,29 +15,30 @@ void shellSort(itemType a[], int n)
   do
   {
     h = 3 * h + 1;
-    _compare++;
   } while (h < n);
   do
   {
     h = h / 3;
-    for (i = h; i <= n; i++)
+    for (i = h; i < n; i++)
     {
       v = a[i];
+      _move++;
       j = i;
       while (a[j - h] > v)
       {
-        _compare++;
-        a[j] = a[j - h];
         _move++;
+        a[j] = a[j - h];
         j -= h;
-        _compare++;
         if (j <= h - 1)
           break;
+        _compare++;
       }
       _compare++;
+
+      _move++;
       a[j] = v;
     }
-    _compare++;
+
   } while (h > 1);
 }
 
@@ -70,10 +71,8 @@ int main()
 {
   int N;
   cin >> N;
-  itemType *A = new itemType[N + 1];
-  itemType *B = new itemType[N + 1];
-  A[0] = -999999;
-  B[0] = -999999;
+  itemType *A = new itemType[N];
+  itemType *B = new itemType[N];
 
   itemType **a = new itemType *[N];
   srand((unsigned)time(NULL)); // 현재시간을 이용해 난수발생기 rand()의 초기값을 재설정
@@ -89,15 +88,15 @@ int main()
     delete[] a[i]; // a관련 메모리의 활용이 끝난 경우 이중 구조 메모리 해제
   delete[] a;
 
-  for (int i = 1; i <= N; i++)
+  for (int i = 0; i < N; i++)
   {
-    A[i] = N - i + 1;
+    A[i] = N - i;
   }
 
   shellSort(A, N);
 
   cout << "sorted data A: (20개까지 출력)";
-  for (int i = 1; i <= 20; i++)
+  for (int i = 0; i < 20; i++)
   {
     cout << A[i] << " ";
   }
@@ -111,7 +110,7 @@ int main()
 
   cout << endl
        << "sorted data B: (20개까지 출력)";
-  for (int i = 1; i <= 20; i++)
+  for (int i = 0; i < 20; i++)
   {
     cout << B[i] << " ";
   }

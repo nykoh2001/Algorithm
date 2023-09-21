@@ -15,7 +15,7 @@ int insertion(itemType a[], int n)
     j = i;
     while (a[j - 1] > v)
     {
-      _cost = _cost + a[j];
+      _cost = _cost + a[j - 1];
       a[j] = a[j - 1];
       j--;
     }
@@ -50,7 +50,7 @@ int shellSort(itemType a[], int n)
         if (j <= h - 1)
           break;
       }
-      _cost = _cost + a[j];
+      _cost = _cost + a[i];
       a[j] = v;
     }
   } while (h > 1);

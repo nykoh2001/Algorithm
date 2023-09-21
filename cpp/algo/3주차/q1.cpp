@@ -14,6 +14,7 @@ void insertion(itemType a[], int n)
   for (i = 2; i <= n; i++)
   {
     v = a[i];
+    _move++;
     j = i;
     while (a[j - 1] > v)
     {
@@ -22,7 +23,7 @@ void insertion(itemType a[], int n)
       _move++;
       j--;
     }
-    _compare++;
+    _move++;
     a[j] = v;
   }
 }
