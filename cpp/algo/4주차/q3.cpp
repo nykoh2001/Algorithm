@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -49,6 +50,8 @@ private:
 public:
   void print()
   {
+    KVS *results = new KVS[10000];
+    int idx = 0;
     for (int i = 0; i < 144; i++)
     {
       KVS *bucket = dictionary[i];
@@ -56,13 +59,41 @@ public:
       {
         if (bucket[j].value() > 0)
         {
-          cout << bucket[j].key() << " : " << bucket[j].value() << endl;
+          // cout << bucket[j].key() << " : " << bucket[j].value() << endl;
+          results[idx++] = bucket[j];
         }
         else
         {
           break;
         }
       }
+    }
+
+    for (int i = 0; i < idx; i++)
+    {
+      for (int j = i; j < idx; j++)
+      {
+        if (results[i].value() < results[j].value())
+        {
+          KVS temp = results[i];
+          results[i] = results[j];
+          results[j] = temp;
+        }
+        else if (results[i].value() == results[j].value())
+        {
+          if (strcmp(results[i].key().c_str(), results[j].key().c_str()) > 0)
+          {
+            KVS temp = results[i];
+            results[i] = results[j];
+            results[j] = temp;
+          }
+        }
+      }
+    }
+
+    for (int i = 0; i < idx; i++)
+    {
+      cout << results[i].key() << " : " << results[i].value() << endl;
     }
   }
   int get_value(string key)
@@ -106,6 +137,22 @@ public:
   }
 };
 
+string *return_word(string word)
+{
+  string *words = new string[100];
+  int idx = 0;
+  for (char c : word)
+  {
+    int ascii = c;
+    if (ascii >= 33 && ascii <= 47)
+    {
+      words[idx++] = word.substr(0, word.find(c));
+      word = word.substr(word.find(c));
+    }
+  }
+  return words;
+}
+
 int main()
 {
   Dictionary dict = Dictionary();
@@ -122,7 +169,21 @@ int main()
       {
         break;
       }
-      dict.add_value(word);
+      string *words = return_word(word);
+      int w_idx = 0;
+      while (true)
+      {
+        if (words[w_idx] == "")
+        {
+          break;
+        }
+        dict.add_value(words[w_idx]);
+        w_idx++;
+      }
+      if (w_idx == 0)
+      {
+        dict.add_value(word);
+      }
     }
   }
   datafile.close();
