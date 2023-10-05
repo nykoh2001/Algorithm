@@ -71,7 +71,7 @@ public:
 
     for (int i = 0; i < idx; i++)
     {
-      for (int j = i; j < idx; j++)
+      for (int j = i + 1; j < idx; j++)
       {
         if (results[i].value() < results[j].value())
         {
@@ -126,6 +126,7 @@ public:
         }
       }
     }
+
     for (int i = 0; i < 100; i++)
     {
       if (bucket[i].key() == key)
