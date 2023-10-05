@@ -64,6 +64,7 @@ int partition(itemType a[], int l, int r, int *_compare, int *_move)
   itemType v;
   if (r > l)
   {
+    (*_move)++;
     v = a[l];
     i = l;
     j = r + 1;
