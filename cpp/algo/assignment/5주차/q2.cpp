@@ -25,13 +25,13 @@ void sort(itemType **a, int N, itemType *B)
   }
   for (int k = 0; k < N; k++)
   {
-    B[k] = a[k][1];
+    B[k + 1] = a[k][1];
   }
 }
 
 int *return_B(int N)
 {
-  itemType *B = new itemType[N];
+  itemType *B = new itemType[N + 1];
 
   itemType **a = new itemType *[N];
   srand((unsigned)time(NULL)); // 현재시간을 이용해 난수발생기 rand()의 초기값을 재설정
@@ -49,85 +49,36 @@ int *return_B(int N)
   return B;
 }
 
-class MakeHeap
+void CountSort(itemType *a, itemType *b, itemType *N, int n, int k, int *_compare, int *_move)
 {
-private:
-  itemType *a;
-  int N;
-
-public:
-  MakeHeap(int max)
+  int i, j;
+  for (i = 1; i <= k; i++)
   {
-    a = new itemType[max];
-    N = 0;
-  }
-  ~MakeHeap()
-  {
-    delete a;
-  }
-  void swap(itemType *a, int i, int j, int *_move)
-  {
-    itemType temp = a[i];
-    a[i] = a[j];
-    a[j] = temp;
-    (*_move) += 3;
-  }
-
-  void makeHeap(itemType *a, int root, int last, int *_compare, int *_move)
-  {
-    int parent, leftSon, rightSon, son;
-    itemType rootValue;
-    parent = root;
-    rootValue = a[root];
-    (*_move)++;
-    leftSon = 2 * parent + 1;
-    rightSon = leftSon + 1;
-    while (leftSon <= last)
-    {
-      if ((*_compare)++ && rightSon <= last && a[leftSon] < a[rightSon])
-      {
-        son = rightSon;
-      }
-      else
-      {
-        son = leftSon;
-      }
-      if ((*_compare)++ && rootValue < a[son])
-      {
-        a[parent] = a[son];
-        (*_move)++;
-        parent = son;
-        leftSon = parent * 2 + 1;
-        rightSon = leftSon + 1;
-      }
-      else
-      {
-        break;
-      }
-    }
-    a[parent] = rootValue;
+    N[i] = 0;
     (*_move)++;
   }
-
-  void heapSort(itemType *a, int N, int *_compare, int *_move)
+  for (i = 1; i <= n; i++)
   {
-    int i;
-    for (i = N / 2; i >= 0; i--)
-    {
-      makeHeap(a, i, N - 1, _compare, _move);
-    }
-    for (i = N - 1; i >= 1; i--)
-    {
-      swap(a, 0, i, _move);
-      makeHeap(a, 0, i - 1, _compare, _move);
-    }
+    N[a[i]] = N[a[i]] + 1;
+    (*_move)++;
   }
-};
+  for (i = 2; i <= k; i++)
+  {
+    N[i] = N[i] + N[i - 1];
+    (*_move)++;
+  }
+  for (j = n; j >= 1; j--)
+  {
+    b[N[a[j]]] = a[j];
+    N[a[j]] = N[a[j]] - 1;
+    (*_move) += 2;
+  }
+}
 
 void print(itemType *a, string name, int _cmp, int _move)
 {
   cout << "sortedData: " << name << " ";
-  for (int i = 0; i < 20; i++)
+  for (int i = 1; i <= 20; i++)
   {
     cout << a[i] << " ";
   }
@@ -141,9 +92,15 @@ int main()
   srand(time(NULL));
   int N;
   cin >> N;
-  int A[N];
+  int A[N + 1];
   int *B;
-  int C[N];
+  int C[N + 1];
+
+  int N_A[N + 1];
+  int N_B[N + 1];
+  int B_A[N + 1];
+  int B_B[N + 1];
+  int B_C[N + 1];
 
   int _compare_a = 0, _compare_b = 0, _compare_c = 0;
   int _move_a = 0, _move_b = 0, _move_c = 0;
@@ -162,18 +119,21 @@ int main()
 
   B = return_B(N);
 
+  int max_C = 0;
   for (int i = 0; i < N; i++)
   {
-    int rand = random() % N + 1;
+    int rand = random() % (N - 15) + 1;
+    if (max_C < rand)
+      max_C = rand;
     C[i] = rand;
   }
+  int N_C[max_C + 1];
 
-  MakeHeap mh = MakeHeap(N);
-  mh.heapSort(A, N, ca, ma);
-  mh.heapSort(B, N, cb, mb);
-  mh.heapSort(C, N, cc, mc);
+  CountSort(A, B_A, N_A, N, N, ca, ma);
+  CountSort(B, B_B, N_B, N, N, cb, mb);
+  CountSort(C, B_C, N_C, N, max_C, cc, mc);
 
-  print(A, "A", _compare_a, _move_a);
-  print(B, "B", _compare_b, _move_b);
-  print(C, "C", _compare_c, _move_c);
+  print(B_A, "A", _compare_a, _move_a);
+  print(B_B, "B", _compare_b, _move_b);
+  print(B_C, "C", _compare_c, _move_c);
 }
