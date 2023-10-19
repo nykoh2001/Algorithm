@@ -8,6 +8,51 @@ using namespace std;
 using itemType = int;
 using infoType = double;
 
+void sort(itemType **a, int N, itemType *B)
+{
+  int i, j;
+  itemType v_0;
+  itemType v_1;
+  for (i = 0; i < N; i++)
+  {
+    v_0 = a[i][0];
+    v_1 = a[i][1];
+    j = i;
+    while (j > 1 && a[j - 1][0] > v_0)
+    {
+      a[j][0] = a[j - 1][0];
+      a[j][1] = a[j - 1][1];
+      j--;
+    }
+    a[j][0] = v_0;
+    a[j][1] = v_1;
+  }
+  for (int k = 0; k < N; k++)
+  {
+    B[k] = a[k][1];
+  }
+}
+
+int *return_B(int N)
+{
+  itemType *B = new itemType[N];
+
+  itemType **a = new itemType *[N];
+  srand((unsigned)time(NULL)); // 현재시간을 이용해 난수발생기 rand()의 초기값을 재설정
+  for (int i = 0; i < N; i++)
+  {
+    a[i] = new int[2];
+    a[i][0] = (1 + rand() % N); // 1~n 사이의 숫자 n개를 랜덤하게 생성
+    a[i][1] = i + 1;
+  } // 난수가 만들어질 때마다 1씩 증가시켜가며 각 난수의 고유 인덱스를 생성
+  sort(a, N, B);
+
+  for (int i = 0; i < N; i++)
+    delete[] a[i]; // a관련 메모리의 활용이 끝난 경우 이중 구조 메모리 해제
+  delete[] a;
+  return B;
+}
+
 class BST
 {
 private:
@@ -42,18 +87,18 @@ void BST::BSTdelete(itemType v, int *_compare)
 {
   struct node *x = head->r, *p, *t, *c;
   p = head;
-  while (++(*_compare) && x->key != v && ++(*_compare) && x != z)
+  while (++(*_compare) && x->key != v && x != z)
   {
     p = x;
-    x = (++(*_compare) && v < x->key) ? x->l : x->r;
+    x = (v < x->key) ? x->l : x->r;
   }
-  if (++(*_compare) && x == z)
+  if (x == z)
     return;
   else
     t = x;
-  if (++(*_compare) && t->r == z)
+  if (t->r == z)
     x = t->l;
-  else if (++(*_compare) && t->r->l == z)
+  else if (t->r->l == z)
   {
     x = t->r;
     x->l = t->l;
@@ -61,7 +106,7 @@ void BST::BSTdelete(itemType v, int *_compare)
   else
   {
     c = x->r;
-    while (++(*_compare) && c->l->l != z)
+    while (c->l->l != z)
       c = c->l;
     x = c->l;
     c->l = x->r;
@@ -107,28 +152,11 @@ void BST::BSTinsert(itemType item, infoType info)
 
 int main()
 {
-  random_device rd;
-
-  std::mt19937 gen(rd());
-
-  uniform_int_distribution<int> dis(1, 30000);
-
   int N;
   cin >> N;
-  // int *random_array = create_random_array(N);
+
   int *random_array = new int[N];
-  for (int i = 0; i < N; i++)
-  {
-    random_array[i] = dis(gen);
-    for (int j = 0; j < i; j++)
-    {
-      if (random_array[j] == random_array[i])
-      {
-        i--;
-        break;
-      }
-    }
-  }
+  random_array = return_B(N);
 
   BST T2 = BST(N);
 
@@ -146,5 +174,5 @@ int main()
     T2.BSTdelete(random_array[10 * i + rand_index], _compare);
   }
 
-  cout << double(cmp) / N << endl;
+  cout << (double(cmp) / N) * 10 << endl;
 }
