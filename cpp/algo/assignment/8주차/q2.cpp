@@ -85,17 +85,6 @@ int main()
   {
     for (int j = 0; j < m + 1; j++)
     {
-      // cout << D[i][j] << " ";
-      cout << path[i][j] << " ";
-    }
-    cout << endl;
-  }
-
-  cout << "편집거리 테이블" << endl;
-  for (int i = 0; i < n + 1; i++)
-  {
-    for (int j = 0; j < m + 1; j++)
-    {
       cout << D[i][j] << " ";
       // cout << path[i][j] << " ";
     }
